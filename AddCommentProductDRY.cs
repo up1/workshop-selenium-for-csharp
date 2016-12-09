@@ -63,4 +63,12 @@ namespace demo_ui_test
 			}
 		}
 	}
+
+	class Comment
+	{
+		private string name { set; get; }
+		private string email { set; get; }
+		private string link { set; get; }
+		private string content { set; get; }
+	}
 }
