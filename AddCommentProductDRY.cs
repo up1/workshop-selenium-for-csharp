@@ -12,7 +12,7 @@ namespace demo_ui_test
 		[SetUp]
 		public void setup()
 		{
-			webdriver = new ChromeDriver();
+			webdriver = new ChromeDriver("/Users/somkiat/Projects/demo_ui_test/demo_ui_test/");
 		}
 
 		[TearDown]
@@ -26,16 +26,33 @@ namespace demo_ui_test
 			webdriver.FindElement(By.XPath("//*[@id=\"special-items\"]/div[4]/div[1]/a[2]")).Click();
 		}
 
-		private void fillInCommentForm()
+		private void fillInCommentForm(Comment comment)
 		{
-			webdriver.FindElement(By.Id("author")).SendKeys("Somkiat");
-			webdriver.FindElement(By.Id("email")).SendKeys("Somkiat@gmail.com");
-			webdriver.FindElement(By.Id("url")).SendKeys("http://www.somkiat.cc");
+			webdriver.FindElement(By.Id("author")).SendKeys(comment.name);
+			webdriver.FindElement(By.Id("email")).SendKeys(comment.email);
+			webdriver.FindElement(By.Id("url")).SendKeys(comment.link);
 			webdriver.FindElement(By.XPath("//*[@id=\"et-rating\"]/div/span/div[8]/a")).Click();
 			webdriver.FindElement(By.Id("comment")).Clear();
-			webdriver.FindElement(By.Id("comment")).SendKeys("My comment naja 3");
+			webdriver.FindElement(By.Id("comment")).SendKeys(comment.content);
 			webdriver.FindElement(By.Id("submit")).Click();
 
+		}
+
+		private Comment generateUniqueComment()
+		{
+			Comment comment = new Comment();
+			comment.name = "Somkiat";
+			comment.email = "somkiat.p@gmail.com";
+			comment.link = "http://www.somkiat.cc";
+			comment.content = "My comment " + DateTime.Now.ToString("hh.mm.ss.ffffff");
+			return comment;
+		}
+
+		private string getNewCommentId()
+		{
+			string[] paths = webdriver.Url.Split('#');
+			string commentId = paths[1];
+			return commentId;
 		}
 
 		[Test()]
@@ -43,32 +60,24 @@ namespace demo_ui_test
 		{
 			webdriver.Url = "http://awful-valentine.com/";
 			chooseProduct();
-			fillInCommentForm();
+			Comment comment = generateUniqueComment();
+			fillInCommentForm(comment);
+			string newCommentId = getNewCommentId();
 
-			if (webdriver.Url.Contains("#"))
-			{
-				string[] paths = webdriver.Url.Split('#');
-				string commentId = paths[1];
-				IWebElement commentElement = webdriver.FindElement(By.Id(commentId));
-				IWebElement infoElement = commentElement.FindElement(By.ClassName("comment-author-metainfo"));
-				string name = infoElement.FindElement(By.ClassName("url")).Text;
-				string commentContent = commentElement.FindElement(By.ClassName("comment-content")).Text;
-
-				Assert.AreEqual("Somkiat", name);
-				Assert.AreEqual("My comment naja 3", commentContent);
-			}
-			else
-			{
-				Assert.Fail("URL invalid !!");
-			}
+			IWebElement commentElement = webdriver.FindElement(By.Id(newCommentId));
+			IWebElement infoElement = commentElement.FindElement(By.ClassName("comment-author-metainfo"));
+			string name = infoElement.FindElement(By.ClassName("url")).Text;
+			string commentContent = commentElement.FindElement(By.ClassName("comment-content")).Text;
+			Assert.AreEqual(comment.name, name);
+			Assert.AreEqual(comment.content, commentContent);
 		}
 	}
 
 	class Comment
 	{
-		private string name { set; get; }
-		private string email { set; get; }
-		private string link { set; get; }
-		private string content { set; get; }
+		public string name { set; get; }
+		public string email { set; get; }
+		public string link { set; get; }
+		public string content { set; get; }
 	}
 }
