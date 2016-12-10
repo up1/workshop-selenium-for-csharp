@@ -64,13 +64,18 @@ namespace demo_ui_test
 			webdriver.Url = "http://awful-valentine.com/";
 		}
 
-		[Test()]
-		public void add_review_to_product()
+		private void generateNewComment(Comment comment)
 		{
 			gotoHomepage();
 			chooseProduct();
-			Comment comment = generateUniqueComment();
 			fillInCommentForm(comment);
+		}
+
+		[Test()]
+		public void add_review_to_product()
+		{
+			Comment comment = generateUniqueComment();
+			generateNewComment(comment);
 			string newCommentId = getNewCommentId();
 
 			IWebElement commentElement = webdriver.FindElement(By.Id(newCommentId));
