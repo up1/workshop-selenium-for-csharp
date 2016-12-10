@@ -85,6 +85,19 @@ namespace demo_ui_test
 			Assert.AreEqual(comment.name, name);
 			Assert.AreEqual(comment.content, commentContent);
 		}
+
+		[Test()]
+		public void duplicate_review_to_product()
+		{
+			Comment comment = generateUniqueComment();
+			generateNewComment(comment);
+			generateNewComment(comment);
+
+			IWebElement errorElement = webdriver.FindElement(By.Id("error-page"));
+			string error = errorElement.Text;
+			Assert.AreEqual("Duplicate comment detected; it looks as though you’ve already said that!", error);
+
+		}
 	}
 
 	class Comment
