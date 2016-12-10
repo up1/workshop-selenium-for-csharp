@@ -50,15 +50,24 @@ namespace demo_ui_test
 
 		private string getNewCommentId()
 		{
-			string[] paths = webdriver.Url.Split('#');
-			string commentId = paths[1];
-			return commentId;
+			if (webdriver.Url.Contains("#"))
+			{
+				string[] paths = webdriver.Url.Split('#');
+				string commentId = paths[1];
+				return commentId;
+			}
+			return "";
+		}
+
+		private void gotoHomepage()
+		{
+			webdriver.Url = "http://awful-valentine.com/";
 		}
 
 		[Test()]
 		public void add_review_to_product()
 		{
-			webdriver.Url = "http://awful-valentine.com/";
+			gotoHomepage();
 			chooseProduct();
 			Comment comment = generateUniqueComment();
 			fillInCommentForm(comment);
