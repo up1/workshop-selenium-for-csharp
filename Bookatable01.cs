@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -33,6 +34,24 @@ namespace demo_ui_test
 			searchLink.Click();
 			IWebElement searchBox = webdriver.FindElement(By.Id("global-navigation__search-input"));
 			searchBox.SendKeys("All");
+
+			//Assert
+			IWebElement searchResult = webdriver.FindElement(By.XPath("/html/body/div[1]/div/nav/div/div/div/ul/li[1]/a/span[2]/span[1]"));
+			Assert.AreEqual("", searchResult.Text);
+		}
+
+		[Test]
+		public void search_restaurant_with_thread_sleep()
+		{
+			webdriver.Url = "http://www.bookatable.com/";
+
+			//Action
+			IWebElement searchLink = webdriver.FindElement(By.ClassName("global-navigation__link-search"));
+			searchLink.Click();
+			IWebElement searchBox = webdriver.FindElement(By.Id("global-navigation__search-input"));
+			searchBox.SendKeys("All");
+
+			Thread.Sleep(5000);
 
 			//Assert
 			IWebElement searchResult = webdriver.FindElement(By.XPath("/html/body/div[1]/div/nav/div/div/div/ul/li[1]/a/span[2]/span[1]"));
