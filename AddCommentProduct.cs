@@ -6,20 +6,18 @@ using OpenQA.Selenium.Chrome;
 namespace demo_ui_test
 {
 	[TestFixture]
-	public class Demo01
+	public class AddCommentProduct
 	{
 
 		[Test()]
 		public void add_review_to_product()
 		{
 			IWebDriver webdriver = new ChromeDriver(@"/Users/somkiat/Projects/demo_ui_test/demo_ui_test/");
-			//Select product
 			webdriver.Url = "http://awful-valentine.com/";
 			webdriver.FindElement(By.XPath("//*[@id=\"special-items\"]/div[4]/div[1]/a[2]")).Click();
 			Assert.AreEqual("http://awful-valentine.com/our-love-is-special/", webdriver.Url);
 			Assert.AreEqual("Our love is special!!", webdriver.FindElement(By.ClassName("category-title")).Text);
 
-			//Fillin review
 			webdriver.FindElement(By.Id("author")).SendKeys("Somkiat");
 			webdriver.FindElement(By.Id("email")).SendKeys("Somkiat@gmail.com");
 			webdriver.FindElement(By.Id("url")).SendKeys("http://www.somkiat.cc");
@@ -28,7 +26,6 @@ namespace demo_ui_test
 			webdriver.FindElement(By.Id("comment")).SendKeys("My comment naja 3");
 			webdriver.FindElement(By.Id("submit")).Click();
 
-			//Detail of new comment
 			if (webdriver.Url.Contains("#"))
 			{
 				string[] paths = webdriver.Url.Split('#');
