@@ -35,7 +35,6 @@ namespace demo_ui_test
 			webdriver.FindElement(By.Id("comment")).Clear();
 			webdriver.FindElement(By.Id("comment")).SendKeys(comment.content);
 			webdriver.FindElement(By.Id("submit")).Click();
-
 		}
 
 		private Comment generateUniqueComment()
