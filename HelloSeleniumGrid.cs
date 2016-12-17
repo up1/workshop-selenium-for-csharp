@@ -15,10 +15,13 @@ namespace demo_ui_test
 		{
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities = DesiredCapabilities.Chrome();
-			capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
-			capabilities.SetCapability(CapabilityType.Platform, new Platform(PlatformType.Mac));
+			capabilities.SetCapability(
+				CapabilityType.BrowserName, "chrome");
+			capabilities.SetCapability(
+				CapabilityType.Platform, new Platform(PlatformType.Mac));
 
-			webdriver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), capabilities);
+			webdriver = new RemoteWebDriver(
+				new Uri("http://localhost:4444/wd/hub"), capabilities);
 			webdriver.Manage().Window.Maximize();
 		}
 
