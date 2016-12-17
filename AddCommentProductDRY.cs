@@ -47,6 +47,16 @@ namespace demo_ui_test
 			return comment;
 		}
 
+		private Comment generateUniqueCommentWithFaker()
+		{
+			Comment comment = new Comment();
+			comment.name = Faker.Name.FullName();
+			comment.email = Faker.Internet.Email();
+			comment.link = Faker.Internet.DomainName();
+			comment.content = Faker.Lorem.Sentence() + DateTime.Now.ToString("hh.mm.ss.ffffff");
+			return comment;
+		}
+
 		private string getNewCommentId()
 		{
 			if (webdriver.Url.Contains("#"))
