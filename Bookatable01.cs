@@ -95,5 +95,16 @@ namespace demo_ui_test
 			Assert.AreEqual("", searchResult.Text);
 		}
 
+		[Test]
+		public void withPageLoadAndScriptTimeout()
+		{
+			webdriver.Manage().Timeouts()
+			         .SetPageLoadTimeout(TimeSpan.FromSeconds(5));
+			
+			webdriver.Manage().Timeouts()
+			         .SetScriptTimeout(TimeSpan.FromSeconds(5));
+		}
+			
+
 	}
 }
