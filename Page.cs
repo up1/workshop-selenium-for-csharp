@@ -18,7 +18,12 @@ namespace demo_ui_test
 			return new PageSidebar(webdriver);
 		}
 
-		public void verify()
+		virtual public string getPagePath()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void verify()
 		{
 			if (!currentPath().Equals(getPagePath()))
 			{
@@ -30,11 +35,6 @@ namespace demo_ui_test
 		{
 			Uri currentUri = new Uri(this.webdriver.Url);
 			return currentUri.PathAndQuery;
-		}
-
-		virtual public string getPagePath()
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

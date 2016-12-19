@@ -34,7 +34,8 @@ namespace demo_ui_test
 		{
 			this.webdriver = webdriver;
 
-			foreach (IWebElement element in webdriver.FindElements(By.ClassName("special-item")))
+			foreach (IWebElement element in 
+			         webdriver.FindElements(By.ClassName("special-item")))
 			{
 				this.items.Add(new SpecialItem(webdriver, element));
 			}

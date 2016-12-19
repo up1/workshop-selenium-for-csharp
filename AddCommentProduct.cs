@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -13,11 +14,13 @@ namespace demo_ui_test
 		public void add_review_to_product()
 		{
 			IWebDriver webdriver = new ChromeDriver(@"/Users/somkiat/Projects/demo_ui_test/demo_ui_test/");
-			webdriver.Url = "http://awful-valentine.com/";
-			webdriver.FindElement(By.XPath("//*[@id=\"special-items\"]/div[4]/div[1]/a[2]")).Click();
-			Assert.AreEqual("http://awful-valentine.com/our-love-is-special/", webdriver.Url);
-			Assert.AreEqual("Our love is special!!", webdriver.FindElement(By.ClassName("category-title")).Text);
 
+			//Step 1
+			webdriver.Url = "http://awful-valentine.com/";
+			//Step 2
+			chooseProduct(webdriver);
+
+			//Step 3
 			webdriver.FindElement(By.Id("author")).SendKeys("Somkiat");
 			webdriver.FindElement(By.Id("email")).SendKeys("Somkiat@gmail.com");
 			webdriver.FindElement(By.Id("url")).SendKeys("http://www.somkiat.cc");
@@ -26,6 +29,7 @@ namespace demo_ui_test
 			webdriver.FindElement(By.Id("comment")).SendKeys("My comment naja 3");
 			webdriver.FindElement(By.Id("submit")).Click();
 
+			//Step 4
 			if (webdriver.Url.Contains("#"))
 			{
 				string[] paths = webdriver.Url.Split('#');
@@ -45,5 +49,11 @@ namespace demo_ui_test
 
 			webdriver.Close();
 		}
-	}
+
+		static void chooseProduct(IWebDriver webdriver)
+		{
+			webdriver.FindElement(By.XPath("//*[@id=\"special-items\"]/div[4]/a")).Click();
+
+		}
+}
 }
