@@ -7,6 +7,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace demo_ui_test
 {
+	
+
 	[TestFixture]
 	public class Bookatable01
 	{
@@ -86,11 +88,37 @@ namespace demo_ui_test
 			IWebElement searchBox = webdriver.FindElement(By.Id("global-navigation__search-input"));
 			searchBox.SendKeys("All");
 
+			Common.waitFor();
+
 			//Assert
 			WebDriverWait webdriverWait = 
 				new WebDriverWait(webdriver, TimeSpan.FromSeconds(5));
 			IWebElement searchResult = 
 				webdriverWait.Until(x=>x.FindElement(By.XPath("/html/body/div[1]/div/nav/div/div/div/ul/li[1]/a/span[2]/span[1]")));
+
+			Assert.AreEqual("", searchResult.Text);
+		}
+
+		[Test]
+		public void search_restaurant_with_fluent_wait()
+		{
+			webdriver.Url = "http://www.bookatable.com/";
+
+			//Action
+			IWebElement searchLink = webdriver.FindElement(By.ClassName("global-navigation__link-search"));
+			searchLink.Click();
+			IWebElement searchBox = webdriver.FindElement(By.Id("global-navigation__search-input"));
+			searchBox.SendKeys("All");
+
+			Common.waitFor();
+
+			//Assert
+			DefaultWait<IWebDriver> fluentWait = new DefaultWait<IWebDriver>(webdriver);
+			fluentWait.Timeout = TimeSpan.FromSeconds(5);
+			fluentWait.PollingInterval = TimeSpan.FromMilliseconds(250);
+			fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
+			IWebElement searchResult =
+				fluentWait.Until(x => x.FindElement(By.XPath("/html/body/div[1]/div/nav/div/div/div/ul/li[1]/a/span[2]/span[1]")));
 
 			Assert.AreEqual("", searchResult.Text);
 		}
