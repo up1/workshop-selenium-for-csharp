@@ -17,13 +17,16 @@ namespace demo_ui_test
 			var proxy = new Proxy();
 			proxy.Kind = ProxyKind.Manual;
 			proxy.IsAutoDetect = false;
-			proxy.HttpProxy = "localhost:8888";
-			proxy.NoProxy = "localhost,127.0.0.1,*tarad.com";
+			proxy.HttpProxy = "http://login:pass@proxyserver:port";
+			proxy.NoProxy = "localhost,127.0.0.1";
 
 			chromeOptions.Proxy = proxy;
-			chromeOptions.AddArgument("ignore-certificate-errors");
+			//chromeOptions.AddArgument("ignore-certificate-errors");
+//			chromeOptions.AddArguments(
+//"--proxy-server=http://user:password@yourProxyServer.com:8080");
 			webdriver =
-				new ChromeDriver("/Users/somkiat/Projects/demo_ui_test/demo_ui_test/", chromeOptions);
+				new ChromeDriver("/Users/somkiat/Projects/demo_ui_test/demo_ui_test/"
+				                 , chromeOptions);
 		}
 
 		[TearDown]

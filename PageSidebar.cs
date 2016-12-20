@@ -32,6 +32,14 @@ namespace demo_ui_test
 			return webdriver.FindElement(By.Id("Cart66WidgetCartEmptyAdvanced")).Text;
 		}
 
+		public string getSummaryOfEmptyCart()
+		{
+			return webdriver
+				.FindElement(
+					By.ClassName("Cart66WidgetCartEmpty")).Text;
+			
+		}
+
 		public string getSubTotal()
 		{
 			return webdriver.FindElement(By.ClassName("Cart66Subtotal")).Text;
